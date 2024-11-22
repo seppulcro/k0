@@ -1,0 +1,48 @@
+:root {
+	--currentColor: white;
+}
+
+* {
+	overscroll-behavior: none;
+}
+
+:root,
+html,
+body {
+	margin: 0;
+	height: 100dvh;
+	padding: 0;
+	background-color: transparent;
+}
+
+.cogwheel {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	width: 24px;
+	height: 24px;
+	&:hover {
+		cursor: pointer;
+	}
+}
+header {
+	position: sticky;
+}
+svg.feather {
+	stroke: var(--currentColor);
+	filter: drop-shadow(0px 0px 1px black);
+}
+
+.keymap-container {
+	overflow-y: scroll;
+	scrollbar-color: white rebeccapurple;
+	scrollbar-width: thin;
+	&::-webkit-scrollbar-thumb,
+	-ms-scrollbar-face-color {
+		background-color: white;
+	}
+	&::-webkit-scrollbar,
+	-ms-scrollbar-base-color {
+		background-color: rebeccapurple;
+	}
+}
