@@ -1,45 +1,52 @@
 {
-	"$schema": "https://schema.tauri.app/config/2",
-	"productName": "k0-keyboard-overlay",
-	"version": "0.1.0",
-	"identifier": "com.k0-keyboard-overlay.app",
-	"build": {
-		"beforeDevCommand": "pnpm run dev",
-		"devUrl": "http://localhost:5173",
-		"beforeBuildCommand": "pnpm build",
-		"frontendDist": "../dist"
-	},
-	"app": {
-		"macOSPrivateApi": true,
-		"windows": [
-			{
-				"title": "k0-keyboard-overlay",
-				"width": 800,
-				"height": 380,
-				"transparent": true,
-				"resizable": false,
-				"alwaysOnTop": true,
-				"dragDropEnabled": false,
-				"closable": false,
-				"minimizable": false,
-				"focus": false,
-				"decorations": false,
-				"shadow": false
-			}
-		],
-		"security": {
-			"csp": null
-		}
-	},
-	"bundle": {
-		"active": true,
-		"targets": "all",
-		"icon": [
-			"icons/32x32.png",
-			"icons/128x128.png",
-			"icons/128x128@2x.png",
-			"icons/icon.icns",
-			"icons/icon.ico"
-		]
-	}
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "k0-keyboard-overlay",
+  "version": "0.1.0",
+  "identifier": "com.k0-keyboard-overlay.app",
+  "build": {
+    "beforeBundleCommand": "pnpm run build",
+    "beforeDevCommand": "pnpm run dev",
+    "devUrl": "http://localhost:5173",
+    "beforeBuildCommand": "pnpm build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "macOSPrivateApi": true,
+    "windows": [
+      {
+        "title": "k0-keyboard-overlay",
+        "width": 800,
+        "height": 380,
+        "transparent": true,
+        "resizable": false,
+        "alwaysOnTop": true,
+        "dragDropEnabled": false,
+        "closable": false,
+        "minimizable": false,
+        "focus": false,
+        "decorations": false,
+        "shadow": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
+  },
+  "plugins": {
+    "logger": {
+      "level": "debug",
+      "file": false
+    }
+  }
 }
