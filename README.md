@@ -4,9 +4,9 @@
 
 # k0
 
-**Live keyboard overlay for tiling WMs**
+**Live keyboard overlay for Linux, macOS & Windows**
 
-A KeyCastr-inspired overlay that reads raw evdev events, highlights pressed keys on your keymap-drawer SVG, and switches layers in real-time — firmware-agnostic (QMK · ZMK · VIAL · anything).
+A KeyCastr-inspired overlay that reads raw key events, highlights pressed keys on your keymap-drawer SVG, and switches layers in real-time — firmware-agnostic (QMK · ZMK · VIAL · anything).
 
 [preview.webm](https://github.com/user-attachments/assets/f393e3d7-74d6-4cae-bf1d-44cd5dfb4945)
 
