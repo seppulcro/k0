@@ -4,7 +4,7 @@
 
 A live keyboard overlay inspired by KeyCastr. Reads raw key events from `/dev/input/eventN`, highlights pressed keys, and switches layers automatically — fully keyboard-agnostic (QMK, ZMK, VIAL, or any firmware).
 
-[preview.webm](https://github.com/user-attachments/assets/19f71773-af21-4d52-9328-ae64dc4c1f35)
+[preview.webm](./assets/preview.webm)
 
 ---
 
