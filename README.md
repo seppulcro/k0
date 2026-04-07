@@ -12,7 +12,7 @@ A KeyCastr-inspired overlay that reads raw key events, highlights pressed keys o
 
 [![Release](https://img.shields.io/github/v/release/seppulcro/k0?style=flat-square)](https://github.com/seppulcro/k0/releases)
 [![CI](https://img.shields.io/github/actions/workflow/status/seppulcro/k0/release.yml?style=flat-square&label=CI)](https://github.com/seppulcro/k0/actions)
-[![License](https://img.shields.io/github/license/seppulcro/k0?style=flat-square)](./LICENSE)
+[![License: AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-blue?style=flat-square)](./LICENSE)
 
 </div>
 
