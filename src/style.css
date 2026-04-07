@@ -1,48 +1,40 @@
-:root {
-	--currentColor: white;
-}
+/* Only override what matcha doesn't handle for our transparent overlay app */
 
 * {
 	overscroll-behavior: none;
 }
 
-:root,
 html,
 body {
-	margin: 0;
-	height: 100dvh;
-	padding: 0;
-	background-color: transparent;
+	height: 100%;
 }
 
-.cogwheel {
-	position: absolute;
-	top: 12px;
-	right: 12px;
-	width: 24px;
-	height: 24px;
-	&:hover {
-		cursor: pointer;
-	}
-}
-header {
-	position: sticky;
-}
-svg.feather {
-	stroke: var(--currentColor);
-	filter: drop-shadow(0px 0px 1px black);
+#app {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
-.keymap-container {
-	overflow-y: scroll;
-	scrollbar-color: white rebeccapurple;
-	scrollbar-width: thin;
-	&::-webkit-scrollbar-thumb,
-	-ms-scrollbar-face-color {
-		background-color: white;
-	}
-	&::-webkit-scrollbar,
-	-ms-scrollbar-base-color {
-		background-color: rebeccapurple;
-	}
+main {
+	flex: 1 1 auto;
+	min-height: 0;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+/* preact-iso Router renders a plain div — make it fill */
+main > div {
+	flex: 1 1 auto;
+	min-height: 0;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+/* hide legacy header/footer — settings drawer replaces them */
+header,
+footer {
+	display: none !important;
 }
