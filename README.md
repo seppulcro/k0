@@ -81,7 +81,6 @@ Open the **⚙** button (top-right of the overlay):
 | **Theme** | 8 themes: Catppuccin × 4, Tokyo Night, Dracula, Nord, Gruvbox. Applied live to the SVG via CSS custom properties. |
 | **Transition** | Key highlight animation: Snappy (80ms), Smooth (200ms), Bouncy (spring), Instant (0ms). |
 | **Hold–tap threshold** | How long a key must be held before activating a layer (slider + number input, 100–500 ms). Default is 200 ms — the QMK / ZMK / VIAL default. Persisted in `localStorage`. |
-| **Developer** | Opens a separate DevTools window (does not disturb the overlay layout). |
 
 ---
 
@@ -93,3 +92,26 @@ Replace `assets/keymap.yaml` and `assets/keymap.svg` with output from [keymap-dr
 - `h:` (hold value) → if it matches a layer name, that key is a layer activator
 
 No manual config file needed — the YAML is the single source of truth.
+
+## Releases
+
+Builds are published automatically via GitHub Actions on `v*` tags.
+
+| Platform | Artifact |
+|---|---|
+| Linux | `.deb` + `.AppImage` |
+| macOS | Universal `.dmg` (x86_64 + arm64) |
+
+### Changelog
+
+#### v0.2.0
+- Full matcha.css integration — theme vars bridge to matcha (`--accent`, `--muted`, `--bd-muted`)
+- Settings panel: Devices, Theme, Input, Console tabs
+- Semantic HTML: `<details>`/`<summary>` device groups, `<fieldset>` inputs, `<menu>` tabs
+- SVG overlay fix: `div.innerHTML` parse avoids Tauri WebView MIME error
+- Responsive flex layout — no hardcoded heights, tiling WM friendly
+- Window permanently resizable; `setSize` replaces toggle-resizable chain
+- CI/CD: Linux + macOS release builds via `tauri-action`
+
+#### v0.1.0
+- Initial release: evdev Rust backend, SVG layer switching, raw key event capture
