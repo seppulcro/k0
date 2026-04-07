@@ -15,12 +15,16 @@ jobs:
         include:
           - platform: ubuntu-22.04
             args: ""
+            rust-target: ""
           - platform: macos-latest
             args: "--target aarch64-apple-darwin"
-          - platform: macos-latest
+            rust-target: "aarch64-apple-darwin"
+          - platform: macos-13
             args: "--target x86_64-apple-darwin"
+            rust-target: "x86_64-apple-darwin"
           - platform: windows-latest
             args: ""
+            rust-target: ""
 
     runs-on: ${{ matrix.platform }}
 
@@ -38,7 +42,7 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@stable
         with:
-          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+          targets: ${{ matrix.rust-target }}
 
       - uses: Swatinem/rust-cache@v2
         with:

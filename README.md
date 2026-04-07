@@ -95,14 +95,72 @@ No manual config file needed — the YAML is the single source of truth.
 
 ## Releases
 
-Builds are published automatically via GitHub Actions on `v*` tags.
+Builds are published automatically via GitHub Actions when a `v*` tag is pushed to `main`.
 
-| Platform | Artifact |
-|---|---|
-| Linux | `.deb` + `.AppImage` |
-| macOS | Universal `.dmg` (x86_64 + arm64) |
+| Platform | Runner | Artifact |
+|---|---|---|
+| Linux | ubuntu-22.04 | `.deb` + `.AppImage` |
+| macOS arm64 | macos-latest | `.dmg` |
+| macOS x86_64 | macos-13 | `.dmg` |
+| Windows | windows-latest | `.msi` + `.exe` |
+
+---
+
+## Contributing & gitflow
+
+### Branch naming
+
+| Type | Pattern | Example |
+|---|---|---|
+| Feature | `feat/<short-description>` | `feat/layer-animation` |
+| Bug fix | `fix/<short-description>` | `fix/svg-parse-error` |
+| Chore / tooling | `chore/<short-description>` | `chore/bump-v0.3.0` |
+
+**Never** put version numbers in feature/fix branch names.
+
+### Workflow
+
+```
+feat/* or fix/* branch
+  └─→ PR → squash merge into main
+              └─→ chore/bump-vX.Y.Z branch
+                    └─→ PR → merge into main
+                                └─→ git tag vX.Y.Z → push → CI builds & publishes release
+```
+
+### Cutting a release
+
+1. Finish all feature/fix PRs into `main`
+2. Create a version bump branch:
+   ```bash
+   git checkout -b chore/bump-vX.Y.Z
+   # edit package.json and src-tauri/tauri.conf.json — bump version field
+   git add package.json src-tauri/tauri.conf.json
+   git commit -m "chore: bump version X.Y.(Z-1) → X.Y.Z"
+   git push origin chore/bump-vX.Y.Z
+   ```
+3. Open PR, get it merged into `main`
+4. Tag from `main`:
+   ```bash
+   git checkout main && git pull
+   git tag vX.Y.Z
+   git push origin vX.Y.Z
+   ```
+5. GitHub Actions builds all platforms and publishes the release automatically.
+
+### Versioning — SemVer
+
+- **patch** (`0.x.Z`) — bug fixes, chores, dependency bumps
+- **minor** (`0.Y.0`) — new features, UI changes, new settings
+- **major** (`X.0.0`) — breaking changes (config format, API, platform drops)
+
+---
 
 ### Changelog
+
+#### v0.2.1
+- macOS CI: split arm64 (`macos-latest`) and x86_64 (`macos-13`) into separate native runners
+- Gitflow: enforce version-bump-via-PR, clean branch naming conventions
 
 #### v0.2.0
 - Full matcha.css integration — theme vars bridge to matcha (`--accent`, `--muted`, `--bd-muted`)
@@ -111,7 +169,7 @@ Builds are published automatically via GitHub Actions on `v*` tags.
 - SVG overlay fix: `div.innerHTML` parse avoids Tauri WebView MIME error
 - Responsive flex layout — no hardcoded heights, tiling WM friendly
 - Window permanently resizable; `setSize` replaces toggle-resizable chain
-- CI/CD: Linux + macOS release builds via `tauri-action`
+- CI/CD: Linux + macOS + Windows release builds via `tauri-action`
 
 #### v0.1.0
 - Initial release: evdev Rust backend, SVG layer switching, raw key event capture

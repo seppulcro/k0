@@ -1,6 +1,4 @@
 import { useSignal, useSignalEffect } from "@preact/signals";
-import { invoke } from "@tauri-apps/api/core";
-import { listen } from "@tauri-apps/api/event";
 import { useEffect, useRef, useState } from "preact/hooks";
 
 import keymapSvgRaw from "@assets/keymap.svg?raw";
@@ -11,6 +9,7 @@ import { activeLayer, pressedPositions } from "../../lib/keyState";
 import { buildPosMaps } from "../../lib/labelTable";
 import { parseSVG, updateSVGLabels } from "../../lib/svgParser";
 import type { AllLayerLabels } from "../../lib/svgParser";
+import { invoke, listen } from "../../lib/tauri";
 import { loadSavedTheme } from "../../lib/themes";
 import { parseKeymapYaml } from "../../lib/yamlParser";
 
