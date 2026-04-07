@@ -9,7 +9,9 @@ export function Header() {
 	const globalContext = useContext(GlobalContext);
 	const [appVersion, setAppVersion] = useState("");
 	useEffect(() => {
-		getVersion().then(setAppVersion);
+		getVersion()
+			.then(setAppVersion)
+			.catch(() => {});
 	}, []);
 	return (
 		<header style={{ margin: 0 }}>

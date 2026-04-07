@@ -14,18 +14,17 @@ test.use({ baseURL: "http://localhost:5173" });
 
 test.beforeEach(async ({ page }) => {
 	await page.goto("/?mock");
-	// Wait for SVG to mount
-	await page.waitForSelector(".keymap-svg-wrapper svg");
+	await page.waitForSelector(".keymap-svg");
 });
 
 test("SVG keymap renders in mock mode", async ({ page }) => {
-	const svg = page.locator(".keymap-svg-wrapper svg");
+	const svg = page.locator(".keymap-svg");
 	await expect(svg).toBeVisible();
 	await page.screenshot({ path: "tests/screenshots/01-initial.png" });
 });
 
 test("Settings panel opens and shows mock device", async ({ page }) => {
-	await page.click(".settings-btn");
+	await page.click(".cog-key");
 	await expect(page.locator(".panel-overlay.open")).toBeVisible();
 	// "Mock Keyboard" → root name strips "Keyboard" suffix → renders as "Mock"
 	await expect(page.locator(".device-group summary")).toBeVisible({ timeout: 3000 });

@@ -1,6 +1,9 @@
-/* ─── Bottom panel overlay ───────────────────────────────────────────────── */
 .panel-overlay {
-	width: 100%;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 20;
 	height: 0;
 	overflow: hidden;
 	background: var(--bg-default);
@@ -8,7 +11,6 @@
 	transition: height 200ms cubic-bezier(0.4, 0, 0.2, 1);
 	display: flex;
 	flex-direction: column;
-	flex-shrink: 0;
 }
 .panel-overlay.open {
 	height: 300px;
@@ -16,45 +18,34 @@
 	box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.4);
 }
 
-/* ─── Tab bar ────────────────────────────────────────────────────────────── */
 .panel-tabbar {
 	display: flex;
 	align-items: center;
 	height: 32px;
 	flex-shrink: 0;
-	border-bottom: 1px solid var(--bd-muted);
 	background: var(--bg-subtle);
-	padding: 0 4px;
+	border-bottom: 1px solid var(--bd-muted);
 }
-
-/* Neutralize matcha's menu margin/border for inline tab use */
 .panel-tabbar menu {
+	all: unset;
 	display: flex;
 	height: 100%;
-	margin: 0;
-	padding: 0;
-	border: none;
-	background: none;
 }
 .panel-tabbar menu li {
-	list-style: none;
-	height: 100%;
+	all: unset;
 	display: flex;
-	align-items: center;
 }
 .panel-tabbar menu li button {
-	height: 100%;
+	all: unset;
+	display: flex;
+	align-items: center;
 	padding: 0 12px;
-	background: none;
-	border: none;
-	border-bottom: 2px solid transparent;
-	color: var(--muted);
 	font-size: 11px;
 	font-weight: 600;
-	white-space: nowrap;
-	position: relative;
-	top: 1px;
-	transition: color 100ms, border-color 100ms;
+	color: var(--muted);
+	cursor: pointer;
+	border-bottom: 2px solid transparent;
+	margin-bottom: -1px;
 }
 .panel-tabbar menu li button:hover {
 	color: var(--default);
@@ -63,37 +54,18 @@
 	color: var(--default);
 	border-bottom-color: var(--accent);
 }
-
-.panel-drag {
-	width: 32px;
-	cursor: grab;
-	flex-shrink: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-.panel-drag::before {
-	content: "⠿";
-	font-size: 12px;
-	color: var(--muted);
-	opacity: 0.4;
-}
-.panel-spacer {
-	flex: 1;
-}
-.panel-close {
-	background: none;
-	border: none;
+.panel-tabbar .panel-close {
+	all: unset;
+	cursor: pointer;
+	margin-left: auto;
 	color: var(--muted);
 	font-size: 13px;
 	padding: 4px 8px;
-	transition: color 100ms;
 }
-.panel-close:hover {
+.panel-tabbar .panel-close:hover {
 	color: var(--default);
 }
 
-/* ─── Panel body ─────────────────────────────────────────────────────────── */
 .panel-body {
 	flex: 1;
 	min-height: 0;
@@ -133,35 +105,22 @@
 	margin: 8px 0;
 }
 
-/* ─── Device list ─ uses <details>/<summary>, matcha styles the rest ──────── */
 .device-list {
 	display: flex;
 	flex-direction: column;
 	gap: 3px;
 }
-
 details.device-group {
-	border: 1px solid var(--bd-muted);
-	background: var(--bg-subtle);
 	margin: 0;
 }
 details.device-group > summary {
-	display: flex;
-	align-items: center;
-	gap: 6px;
-	padding: 5px 8px;
 	font-size: 11px;
 	font-weight: 600;
-	cursor: pointer;
 	user-select: none;
-	list-style: none; /* hide native triangle */
-}
-details.device-group > summary:hover {
-	color: var(--accent);
+	list-style: none;
 }
 details.device-group.active {
 	border-color: var(--accent);
-	background: color-mix(in srgb, var(--accent) 10%, var(--bg-subtle));
 }
 details.device-group.partial {
 	border-color: var(--k0-layer-held-fill, #89b4fa);
@@ -171,17 +130,14 @@ details.device-group.partial {
 	color: var(--muted);
 	margin-left: auto;
 }
-
 .device-children {
-	margin: 2px 0 0 12px;
-	padding-left: 8px;
+	padding: 0 0 4px 8px;
+	margin-left: 12px;
 	border-left: 1px solid var(--bd-muted);
 	display: flex;
 	flex-direction: column;
 	gap: 1px;
-	padding-bottom: 4px;
 }
-/* matcha styles <label> — only override layout */
 .device-children label {
 	display: flex;
 	align-items: center;
@@ -196,12 +152,8 @@ details.device-group.partial {
 	display: block;
 	font-size: 9px;
 	color: var(--muted);
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
 }
 
-/* ─── Theme swatches — genuinely custom colored buttons ──────────────────── */
 .theme-grid {
 	display: flex;
 	flex-direction: column;
@@ -217,7 +169,6 @@ details.device-group.partial {
 	font-weight: 500;
 	text-align: left;
 	width: 100%;
-	transition: opacity 100ms;
 }
 .theme-swatch:hover {
 	opacity: 0.85;
@@ -232,7 +183,6 @@ details.device-group.partial {
 	flex-shrink: 0;
 }
 
-/* ─── Transition picker ──────────────────────────────────────────────────── */
 .transition-grid {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
@@ -249,7 +199,6 @@ details.device-group.partial {
 	color: var(--default);
 	font-size: 11px;
 	font-weight: 500;
-	transition: border-color 100ms, background 100ms;
 }
 .transition-btn:hover {
 	border-color: var(--accent);
@@ -265,7 +214,6 @@ details.device-group.partial {
 	font-family: monospace;
 }
 
-/* ─── Input tab — <fieldset> + matcha handles label/input base ───────────── */
 .input-row {
 	max-width: 480px;
 }
@@ -289,7 +237,6 @@ details.device-group.partial {
 	flex-shrink: 0;
 }
 
-/* ─── Console pane ───────────────────────────────────────────────────────── */
 .console-pane {
 	flex: 1;
 	min-height: 0;

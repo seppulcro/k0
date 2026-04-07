@@ -1,5 +1,3 @@
-/* Only override what matcha doesn't handle for our transparent overlay app */
-
 * {
 	overscroll-behavior: none;
 }
@@ -19,21 +17,17 @@ body {
 main {
 	flex: 1 1 auto;
 	min-height: 0;
-	width: 100%;
 	display: flex;
 	flex-direction: column;
 }
 
-/* preact-iso Router renders a plain div — make it fill */
 main > div {
 	flex: 1 1 auto;
 	min-height: 0;
-	width: 100%;
 	display: flex;
 	flex-direction: column;
 }
 
-/* hide legacy header/footer — settings drawer replaces them */
 header,
 footer {
 	display: none !important;

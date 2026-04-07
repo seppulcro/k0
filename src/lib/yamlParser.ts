@@ -1,49 +1,35 @@
-/**
- * Parses keymap-drawer YAML to derive all layout mappings.
- *
- * From the base layer's key entries:
- *   - t: (tap label) + position index → labelToPos map
- *   - h: (hold layer name) → posToLayer map
- *
- * The YAML is the single source of truth — no manual keymap-config.json needed.
- *
- * keymap-drawer YAML base layer entry shapes:
- *   "Q"                      → tap: "Q"
- *   {t: "Esc", h: "Media"}  → tap: "Esc", hold layer: "Media"
- *   {t: "A", h: "Meta"}     → tap: "A", hold: not a layer name (modifier)
- */
-
 import { load } from "js-yaml";
 
-export interface LayerEntry {
+export interface KeyLabel {
 	tap: string;
-	holdLayer?: string; // only set when h: is a known layer name
+	hold?: string;
+	shifted?: string;
 }
 
 export interface ParsedKeymap {
 	layerNames: string[];
-	/** keypos-N → tap label (from base layer) */
-	posToLabel: Map<number, string>;
-	/** tap label (lowercase) → keypos-N */
-	labelToPos: Map<string, number>;
-	/** keypos-N → layer name (hold binding) */
-	posToLayer: Map<number, string>;
 	defaultLayer: string;
-	/** tapping term in ms — from yaml draw_config.tap_dance_wait_ms or default 200 */
 	tappingTermMs: number;
+	/** keypos → tap label (base layer) */
+	posToLabel: Map<number, string>;
+	/** tap label (lowercase) → keypos */
+	labelToPos: Map<string, number>;
+	/** keypos → layer name (hold binding, layer activators only) */
+	posToLayer: Map<number, string>;
+	/** layer name → keypos → labels */
+	layerLabels: Map<string, Map<number, KeyLabel>>;
 }
 
 // biome-ignore lint/suspicious/noExplicitAny: YAML is untyped
-function entryToLayerEntry(entry: any): LayerEntry {
-	if (typeof entry === "string") {
-		return { tap: entry };
-	}
-	if (entry && typeof entry === "object") {
-		const tap = String(entry.t ?? entry.tap ?? "");
-		const hold = entry.h ?? entry.hold;
-		return { tap, holdLayer: hold ? String(hold) : undefined };
-	}
-	return { tap: "" };
+function entryToKeyLabel(entry: any): KeyLabel {
+	if (typeof entry === "string") return { tap: entry };
+	if (!entry || typeof entry !== "object") return { tap: "" };
+	if (entry.type) return { tap: "" };
+	return {
+		tap: String(entry.t ?? entry.tap ?? ""),
+		hold: entry.h != null ? String(entry.h) : undefined,
+		shifted: entry.s != null ? String(entry.s) : undefined,
+	};
 }
 
 export function parseKeymapYaml(yamlText: string): ParsedKeymap {
@@ -52,39 +38,42 @@ export function parseKeymapYaml(yamlText: string): ParsedKeymap {
 	const layers: Record<string, unknown[][]> = doc?.layers ?? {};
 	const layerNames = Object.keys(layers);
 	const defaultLayer = layerNames[0] ?? "Base";
-	// keymap-drawer uses tap_dance_wait_ms; QMK default tapping term is 200ms
 	const tappingTermMs: number = doc?.draw_config?.tap_dance_wait_ms ?? 200;
 
-	const baseRows: unknown[][] = layers[defaultLayer] ?? [];
-
-	const posToLabel = new Map<number, string>();
 	const labelToPos = new Map<string, number>();
+	const posToLabel = new Map<number, string>();
 	const posToLayer = new Map<number, string>();
+	const layerLabels = new Map<string, Map<number, KeyLabel>>();
 
-	// keymap-drawer flattens rows into sequential keypos-N order
-	let pos = 0;
-	for (const row of baseRows) {
-		for (const rawEntry of row) {
-			const entry = entryToLayerEntry(rawEntry);
-			const label = entry.tap.trim();
-			if (label) {
-				posToLabel.set(pos, label);
-				labelToPos.set(label.toLowerCase(), pos);
+	for (const [layerName, rows] of Object.entries(layers)) {
+		const posMap = new Map<number, KeyLabel>();
+		let pos = 0;
+		for (const row of rows as unknown[][]) {
+			for (const rawEntry of row) {
+				const label = entryToKeyLabel(rawEntry);
+				posMap.set(pos, label);
+				if (layerName === defaultLayer) {
+					if (label.tap) {
+						posToLabel.set(pos, label.tap);
+						labelToPos.set(label.tap.toLowerCase(), pos);
+					}
+					if (label.hold && layerNames.includes(label.hold)) {
+						posToLayer.set(pos, label.hold);
+					}
+				}
+				pos++;
 			}
-			// Hold layer: only treat as a layer activator if the name matches a known layer
-			if (entry.holdLayer && layerNames.includes(entry.holdLayer)) {
-				posToLayer.set(pos, entry.holdLayer);
-			}
-			pos++;
 		}
+		layerLabels.set(layerName, posMap);
 	}
 
 	return {
 		layerNames,
+		defaultLayer,
+		tappingTermMs,
 		posToLabel,
 		labelToPos,
 		posToLayer,
-		defaultLayer,
-		tappingTermMs,
+		layerLabels,
 	};
 }
