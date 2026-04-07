@@ -1,7 +1,7 @@
 import { useComputed, useSignalEffect } from "@preact/signals";
 import { useEffect, useRef, useState } from "preact/hooks";
 import { consoleLogs } from "../../lib/consoleCapture";
-import { LogicalSize, getCurrentWindow, invoke } from "../../lib/tauri";
+import { invoke } from "../../lib/tauri";
 import { THEMES, TRANSITIONS, applyTheme } from "../../lib/themes";
 import "./style.css";
 
@@ -20,7 +20,6 @@ interface Props {
 	onTappingTermChange: (ms: number) => void;
 }
 
-const PANEL_H = 300;
 const TABS = ["Devices", "Theme", "Input", "Console"] as const;
 type Tab = (typeof TABS)[number];
 
@@ -42,16 +41,6 @@ export function Settings({
 	);
 	const consoleEndRef = useRef<HTMLDivElement>(null);
 	const logs = useComputed(() => consoleLogs.value);
-
-	// Resize Tauri window: grow by PANEL_H when open, shrink back when closed
-	useEffect(() => {
-		const win = getCurrentWindow();
-		const baseH = window.innerHeight;
-		const h = open ? baseH + PANEL_H : baseH - PANEL_H;
-		win
-			.setSize(new LogicalSize(window.innerWidth, Math.max(h, 200)))
-			.catch(() => {});
-	}, [open]);
 
 	// Fetch devices when panel opens
 	useEffect(() => {
@@ -93,9 +82,7 @@ export function Settings({
 
 	return (
 		<div class={`panel-overlay ${open ? "open" : ""}`}>
-			{/* Tab bar — drag handle + tabs + close */}
 			<div class="panel-tabbar">
-				<div class="panel-drag" />
 				<menu>
 					{TABS.map((t) => (
 						<li key={t} class={tab === t ? "selected" : ""}>
@@ -108,7 +95,6 @@ export function Settings({
 						</li>
 					))}
 				</menu>
-				<div class="panel-spacer" />
 				<button
 					type="button"
 					class="panel-close"
@@ -119,13 +105,12 @@ export function Settings({
 				</button>
 			</div>
 
-			{/* Panel body */}
 			<div class="panel-body">
 				{tab === "Devices" && (
 					<div class="panel-section">
 						<p class="muted">
 							Select which /dev/input/event* nodes to capture. Interfaces
-							sharing a uniq ID are grouped.
+							sharing a unique ID are grouped.
 						</p>
 						<div class="device-list">
 							{devices.length === 0 ? (

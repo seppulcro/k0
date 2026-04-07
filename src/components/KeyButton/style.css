@@ -1,0 +1,76 @@
+.key rect.key {
+	fill: var(--k0-key-fill, #45475a);
+	stroke: var(--k0-key-stroke, #585b70);
+	transition: fill var(--k0-key-transition-duration, 60ms) var(--k0-key-transition-easing, ease-out),
+		stroke var(--k0-key-transition-duration, 60ms) var(--k0-key-transition-easing, ease-out);
+}
+.key rect.side {
+	fill: var(--k0-key-fill, #45475a);
+	filter: brightness(75%);
+	transition: fill var(--k0-key-transition-duration, 60ms) var(--k0-key-transition-easing, ease-out);
+}
+.key text {
+	fill: var(--k0-key-text, #cdd6f4);
+	font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+	font-size: 11px;
+	text-anchor: middle;
+	dominant-baseline: middle;
+	transition: fill var(--k0-key-transition-duration, 60ms) var(--k0-key-transition-easing, ease-out);
+}
+.key text.hold,
+.key text.shifted {
+	font-size: 9px;
+}
+
+.key-pressed rect.key {
+	fill: var(--k0-key-pressed-fill, #cba6f7);
+	stroke: var(--k0-key-pressed-stroke, #d4b0f8);
+}
+.key-pressed rect.side {
+	fill: var(--k0-key-pressed-fill, #cba6f7);
+	filter: brightness(75%);
+}
+.key-pressed text {
+	fill: var(--k0-key-pressed-text, #1e1e2e);
+}
+
+.key-layer-held rect.key {
+	fill: var(--k0-layer-held-fill, #89b4fa);
+	stroke: var(--k0-layer-held-stroke, #99c0fc);
+	transition-duration: var(--k0-layer-transition-duration, 40ms);
+}
+.key-layer-held rect.side {
+	fill: var(--k0-layer-held-fill, #89b4fa);
+	filter: brightness(75%);
+	transition-duration: var(--k0-layer-transition-duration, 40ms);
+}
+.key-layer-held text {
+	fill: var(--k0-layer-held-text, #1e1e2e);
+	transition-duration: var(--k0-layer-transition-duration, 40ms);
+}
+
+.cog-key {
+	width: 36px;
+	height: 36px;
+	overflow: visible;
+	opacity: 0.4;
+	transition: opacity 150ms ease;
+	cursor: pointer;
+}
+.cog-key:hover {
+	opacity: 1;
+}
+.cog-active {
+	opacity: 1;
+}
+.cog-active rect.key {
+	fill: var(--k0-key-pressed-fill, #cba6f7);
+	stroke: var(--k0-key-pressed-stroke, #d4b0f8);
+}
+.cog-active rect.side {
+	fill: var(--k0-key-pressed-fill, #cba6f7);
+	filter: brightness(75%);
+}
+.cog-active text {
+	fill: var(--k0-key-pressed-text, #1e1e2e);
+}
