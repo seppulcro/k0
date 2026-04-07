@@ -169,7 +169,7 @@ export function Home() {
 			<div class="keymap-container">
 				<button
 					type="button"
-					class="settings-btn"
+					class={`settings-btn${settingsOpen ? " active" : ""}`}
 					onClick={() => setSettingsOpen((v) => !v)}
 					aria-label="Toggle settings panel"
 				>

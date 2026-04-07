@@ -19,7 +19,7 @@ jobs:
           - platform: macos-latest
             args: "--target aarch64-apple-darwin"
             rust-target: "aarch64-apple-darwin"
-          - platform: macos-13
+          - platform: macos-latest
             args: "--target x86_64-apple-darwin"
             rust-target: "x86_64-apple-darwin"
           - platform: windows-latest
@@ -63,6 +63,7 @@ jobs:
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           tagName: ${{ github.ref_name }}
           releaseName: "k0 __VERSION__"

@@ -297,18 +297,6 @@ export function Settings({
 
 				{tab === "Console" && (
 					<div class="console-pane">
-						<div class="console-toolbar">
-							<small class="muted">{logs.value.length} entries</small>
-							<button
-								type="button"
-								class="console-clear"
-								onClick={() => {
-									consoleLogs.value = [];
-								}}
-							>
-								Clear
-							</button>
-						</div>
 						<div class="console-log-list">
 							{logs.value.map((entry) => (
 								<div
@@ -323,6 +311,18 @@ export function Settings({
 								</div>
 							))}
 							<div ref={consoleEndRef} />
+						</div>
+						<div class="console-toolbar">
+							<small class="muted">{logs.value.length} entries</small>
+							<button
+								type="button"
+								class="console-clear"
+								onClick={() => {
+									consoleLogs.value = [];
+								}}
+							>
+								Clear
+							</button>
 						</div>
 					</div>
 				)}

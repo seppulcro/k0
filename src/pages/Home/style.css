@@ -16,28 +16,62 @@
 	align-items: center;
 }
 
-/* Cog button — positional + k0 theme only, matcha handles base button styles */
+/* Cog button — styled to match SVG keys */
 .settings-btn {
 	position: absolute;
 	top: 8px;
 	right: 8px;
 	z-index: 10;
-	width: 32px;
-	height: 32px;
+	width: 26px;
+	height: 26px;
 	padding: 0;
-	font-size: 16px;
+	font-size: 13px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: var(--k0-surface, #313244);
-	border-color: var(--k0-key-stroke, #585b70);
-	color: var(--k0-subtext, #a6adc8);
-	opacity: 0.4;
-	transition: opacity 150ms ease;
+	background: var(--k0-key-fill, #45475a) !important;
+	border: 1px solid var(--k0-key-stroke, #585b70) !important;
+	border-radius: 6px;
+	color: var(--k0-key-text, #cdd6f4) !important;
+	box-shadow: none;
+	opacity: 0.6;
+	transition: opacity 150ms ease, background
+		var(--k0-key-transition-duration, 60ms)
+		var(--k0-key-transition-easing, ease-out), border-color
+		var(--k0-key-transition-duration, 60ms)
+		var(--k0-key-transition-easing, ease-out), color
+		var(--k0-key-transition-duration, 60ms)
+		var(--k0-key-transition-easing, ease-out);
+}
+/* Side element — mirrors SVG rect.side (brightness 75%, offset behind) */
+.settings-btn::before {
+	content: "";
+	position: absolute;
+	inset: -1px;
+	border-radius: 6px;
+	background: color-mix(in srgb, var(--k0-key-fill, #45475a) 75%, black);
+	border: 1px solid color-mix(in srgb, var(--k0-key-stroke, #585b70) 75%, black);
+	transform: translate(3px, 4px);
+	z-index: -1;
+	transition: background var(--k0-key-transition-duration, 60ms)
+		var(--k0-key-transition-easing, ease-out);
 }
 .settings-btn:hover {
 	opacity: 1;
-	color: var(--k0-text, #cdd6f4);
+}
+.settings-btn.active {
+	opacity: 1;
+	background: var(--k0-key-pressed-fill, #cba6f7) !important;
+	border-color: var(--k0-key-pressed-stroke, #d4b0f8) !important;
+	color: var(--k0-key-pressed-text, #1e1e2e) !important;
+}
+.settings-btn.active::before {
+	background: color-mix(in srgb, var(--k0-key-pressed-fill, #cba6f7) 75%, black);
+	border-color: color-mix(
+		in srgb,
+		var(--k0-key-pressed-stroke, #d4b0f8) 75%,
+		black
+	);
 }
 
 .keymap-svg-wrapper {

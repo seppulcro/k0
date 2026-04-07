@@ -53,7 +53,7 @@
 	font-weight: 600;
 	white-space: nowrap;
 	position: relative;
-	top: 1px;
+	margin-bottom: -1px;
 	transition: color 100ms, border-color 100ms;
 }
 .panel-tabbar menu li button:hover {
@@ -309,6 +309,13 @@ details.device-group.partial {
 	flex: 1;
 	min-height: 0;
 	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+}
+
+.console-log-list::before {
+	content: "";
+	flex: 1;
 }
 .console-entry {
 	display: flex;
