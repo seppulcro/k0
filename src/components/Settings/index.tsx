@@ -1,8 +1,7 @@
 import { useComputed, useSignalEffect } from "@preact/signals";
-import { invoke } from "@tauri-apps/api/core";
-import { LogicalSize, getCurrentWindow } from "@tauri-apps/api/window";
 import { useEffect, useRef, useState } from "preact/hooks";
 import { consoleLogs } from "../../lib/consoleCapture";
+import { LogicalSize, getCurrentWindow, invoke } from "../../lib/tauri";
 import { THEMES, TRANSITIONS, applyTheme } from "../../lib/themes";
 import "./style.css";
 
@@ -214,6 +213,7 @@ export function Settings({
 									<button
 										type="button"
 										key={id}
+										data-id={id}
 										class={`theme-swatch ${theme === id ? "active" : ""}`}
 										style={{
 											background: t.vars["--k0-bg"],
@@ -242,6 +242,7 @@ export function Settings({
 									<button
 										type="button"
 										key={id}
+										data-id={id}
 										class={`transition-btn ${transition === id ? "active" : ""}`}
 										onClick={() => handleTransition(id)}
 									>
