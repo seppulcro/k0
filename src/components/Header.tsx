@@ -1,14 +1,16 @@
-import { useLocation } from "preact-iso";
-import { useContext } from "preact/hooks";
-import { GlobalContext } from "..";
 import { getVersion } from "@tauri-apps/api/app";
-import { getCurrentWebview } from "@tauri-apps/api/webview";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
-const appVersion = await getVersion();
+import { useLocation } from "preact-iso";
+import { useContext, useEffect, useState } from "preact/hooks";
+import { GlobalContext } from "..";
 
 export function Header() {
 	const { url } = useLocation();
 	const globalContext = useContext(GlobalContext);
+	const [appVersion, setAppVersion] = useState("");
+	useEffect(() => {
+		getVersion().then(setAppVersion);
+	}, []);
 	return (
 		<header style={{ margin: 0 }}>
 			<menu

@@ -1,0 +1,13 @@
+{
+	"cssVars": {
+		"--k0-key-pressed-fill": "#7c3aed",
+		"--k0-key-pressed-stroke": "#a78bfa",
+		"--k0-key-pressed-text": "#ffffff",
+		"--k0-key-transition-duration": "80ms",
+		"--k0-key-transition-easing": "ease-out",
+		"--k0-layer-held-fill": "#854747",
+		"--k0-layer-held-stroke": "#f87171",
+		"--k0-layer-held-text": "#ffffff",
+		"--k0-layer-transition-duration": "60ms"
+	}
+}

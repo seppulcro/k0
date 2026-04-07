@@ -1,0 +1,52 @@
+.home-root {
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 auto;
+	min-height: 0;
+	width: 100%;
+}
+
+.keymap-container {
+	position: relative;
+	flex: 1 1 auto;
+	min-height: 200px;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* Cog button — positional + k0 theme only, matcha handles base button styles */
+.settings-btn {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	z-index: 10;
+	width: 32px;
+	height: 32px;
+	padding: 0;
+	font-size: 16px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--k0-surface, #313244);
+	border-color: var(--k0-key-stroke, #585b70);
+	color: var(--k0-subtext, #a6adc8);
+	opacity: 0.4;
+	transition: opacity 150ms ease;
+}
+.settings-btn:hover {
+	opacity: 1;
+	color: var(--k0-text, #cdd6f4);
+}
+
+.keymap-svg-wrapper {
+	width: 100%;
+	line-height: 0;
+}
+
+.keymap-svg-wrapper svg {
+	display: block;
+	width: 100%;
+	height: auto;
+}
