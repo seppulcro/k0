@@ -1,26 +1,19 @@
-import { useSignal, useSignalEffect } from "@preact/signals";
+import { useSignalEffect } from "@preact/signals";
 import { useEffect, useState } from "preact/hooks";
-
-import keymapSvgRaw from "@assets/keymap.svg?raw";
-import keymapYamlRaw from "@assets/my_keymap.yaml?raw";
 
 import { KeyButton } from "../../components/KeyButton";
 import { Settings } from "../../components/Settings";
 import { activeLayer, pressedPositions } from "../../lib/keyState";
-import { buildPosMaps } from "../../lib/labelTable";
-import { parseLayout } from "../../lib/svgParser";
+import {
+	evdevToPos,
+	parsedKeymap,
+	parsedLayout,
+	posToLayerStrKeys,
+} from "../../lib/keymapStore";
 import { invoke, listen } from "../../lib/tauri";
 import { loadSavedTheme } from "../../lib/themes";
-import { parseKeymapYaml } from "../../lib/yamlParser";
 
 import "./style.css";
-
-const keymap = parseKeymapYaml(keymapYamlRaw);
-const { evdevToPos } = buildPosMaps(keymap.labelToPos);
-const posToLayerStrKeys: Record<string, string> = {};
-for (const [pos, layer] of keymap.posToLayer) {
-	posToLayerStrKeys[String(pos)] = layer;
-}
 
 function getSavedDevices(): string[] {
 	try {
@@ -32,7 +25,6 @@ function getSavedDevices(): string[] {
 }
 
 export function Home() {
-	const layout = useSignal(parseLayout(keymapSvgRaw));
 	const [settingsOpen, setSettingsOpen] = useState(false);
 	const [activeDevices, setActiveDevices] = useState<string[]>(getSavedDevices);
 	const [tappingTermMs, setTappingTermMs] = useState<number>(() => {
@@ -40,9 +32,8 @@ export function Home() {
 			typeof localStorage !== "undefined"
 				? localStorage.getItem("k0-tapping-term")
 				: null;
-		return saved ? Number(saved) : keymap.tappingTermMs;
+		return saved ? Number(saved) : parsedKeymap.value.tappingTermMs;
 	});
-	const layerLabels = useSignal(keymap.layerLabels.get(keymap.defaultLayer));
 
 	useEffect(() => {
 		const { themeId, transitionId } = loadSavedTheme();
@@ -50,16 +41,24 @@ export function Home() {
 		void transitionId;
 	}, []);
 
-	useEffect(() => {
+	// Sync layout to Rust backend reactively whenever store changes
+	useSignalEffect(() => {
+		const etp = evdevToPos.value;
+		const ptl = posToLayerStrKeys.value;
+		const dl = parsedKeymap.value.defaultLayer;
+		const ttMs = Number(
+			localStorage.getItem("k0-tapping-term") ??
+				parsedKeymap.value.tappingTermMs,
+		);
 		invoke("update_layout", {
-			evdevToPos,
-			posToLayer: posToLayerStrKeys,
-			defaultLayer: keymap.defaultLayer,
-			tappingTermMs: Number(
-				localStorage.getItem("k0-tapping-term") ?? keymap.tappingTermMs,
-			),
+			evdevToPos: etp,
+			posToLayer: ptl,
+			defaultLayer: dl,
+			tappingTermMs: ttMs,
 		}).catch(console.error);
+	});
 
+	useEffect(() => {
 		const saved = getSavedDevices();
 		if (saved.length > 0) {
 			invoke("start_capture", { paths: saved }).catch((e) => {
@@ -90,11 +89,14 @@ export function Home() {
 		};
 	}, []);
 
-	useSignalEffect(() => {
-		layerLabels.value =
-			keymap.layerLabels.get(activeLayer.value) ??
-			keymap.layerLabels.get(keymap.defaultLayer);
-	});
+	// Derive layer labels reactively
+	const layerLabels = (() => {
+		const km = parsedKeymap.value;
+		return (
+			km.layerLabels.get(activeLayer.value) ??
+			km.layerLabels.get(km.defaultLayer)
+		);
+	})();
 
 	function handleDevicesSelect(paths: string[]) {
 		setActiveDevices(paths);
@@ -106,14 +108,14 @@ export function Home() {
 		setTappingTermMs(ms);
 		localStorage.setItem("k0-tapping-term", String(ms));
 		invoke("update_layout", {
-			evdevToPos,
-			posToLayer: posToLayerStrKeys,
-			defaultLayer: keymap.defaultLayer,
+			evdevToPos: evdevToPos.value,
+			posToLayer: posToLayerStrKeys.value,
+			defaultLayer: parsedKeymap.value.defaultLayer,
 			tappingTermMs: ms,
 		}).catch(console.error);
 	}
 
-	const parsed = layout.value;
+	const parsed = parsedLayout.value;
 
 	return (
 		<div class="home-root">
@@ -139,7 +141,7 @@ export function Home() {
 					xmlns="http://www.w3.org/2000/svg"
 				>
 					{parsed.keys.map(({ pos, x, y }) => {
-						const labels = layerLabels.value?.get(pos);
+						const labels = layerLabels?.get(pos);
 						return (
 							<KeyButton
 								key={pos}
@@ -151,7 +153,7 @@ export function Home() {
 								shifted={labels?.shifted}
 								pressed={pressedPositions.value.has(pos)}
 								layerHeld={
-									keymap.posToLayer.has(pos) &&
+									parsedKeymap.value.posToLayer.has(pos) &&
 									pressedPositions.value.has(pos)
 								}
 							/>

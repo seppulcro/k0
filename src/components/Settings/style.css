@@ -303,3 +303,123 @@ details.device-group.partial {
 	white-space: pre-wrap;
 	word-break: break-all;
 }
+
+/* ---- Import/Export tab ---- */
+
+.drop-zone {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+	padding: 14px 10px;
+	border: 2px dashed var(--bd-muted);
+	border-radius: 6px;
+	cursor: pointer;
+	transition: border-color 150ms, background 150ms;
+	position: relative;
+}
+.drop-zone:hover,
+.drop-zone--active {
+	border-color: var(--accent);
+	background: color-mix(in srgb, var(--accent) 6%, transparent);
+}
+.drop-zone-icon {
+	font-size: 20px;
+}
+.drop-zone-text {
+	font-size: 11px;
+	font-weight: 600;
+}
+.drop-zone-text code {
+	font-size: 10px;
+	background: var(--bg-subtle);
+	padding: 1px 4px;
+	border-radius: 3px;
+}
+.drop-zone-hint {
+	font-size: 9px;
+	color: var(--muted);
+}
+.drop-zone-input {
+	display: none;
+}
+
+.import-error {
+	margin: 6px 0 0;
+	padding: 4px 8px;
+	font-size: 10px;
+	color: #f38ba8;
+	background: color-mix(in srgb, #f38ba8 8%, transparent);
+	border-radius: 4px;
+}
+
+.import-status {
+	margin-top: 8px;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+.import-file {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 10px;
+}
+.import-badge {
+	font-size: 9px;
+	font-weight: 700;
+	padding: 1px 5px;
+	border-radius: 3px;
+	background: var(--bg-subtle);
+	color: var(--muted);
+	flex-shrink: 0;
+}
+.import-badge--custom {
+	background: color-mix(in srgb, var(--accent) 18%, var(--bg-subtle));
+	color: var(--accent);
+}
+.import-file-name {
+	color: var(--default);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.export-actions {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+.export-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 6px 12px;
+	border: 1px solid var(--bd-muted);
+	background: var(--bg-subtle);
+	color: var(--default);
+	font-size: 11px;
+	font-weight: 600;
+	cursor: pointer;
+	border-radius: 4px;
+}
+.export-btn:hover {
+	border-color: var(--accent);
+}
+.export-btn:disabled {
+	opacity: 0.4;
+	cursor: default;
+}
+.export-btn--danger {
+	color: #f38ba8;
+	border-color: color-mix(in srgb, #f38ba8 30%, var(--bd-muted));
+}
+.export-btn--danger:hover:not(:disabled) {
+	background: color-mix(in srgb, #f38ba8 8%, var(--bg-subtle));
+	border-color: #f38ba8;
+}
+.export-hint {
+	font-size: 9px;
+	margin: 0;
+}
