@@ -24,7 +24,7 @@ A KeyCastr-inspired overlay that reads raw key events, highlights pressed keys o
 - 🗂️ **Automatic layer switching** — hold-tap detection with configurable tapping term
 - 🎨 **8 themes** — Catppuccin × 4, Tokyo Night, Dracula, Nord, Gruvbox — live-applied
 - ✨ **4 animations** — Snappy, Smooth, Bouncy, Instant
-- 🔌 **Bring your own keymap** — drop a [keymap-drawer](https://github.com/caksoylar/keymap-drawer) YAML + SVG, nothing else needed
+- 🔌 **Bring your own keymap** — drag & drop a [keymap-drawer](https://github.com/caksoylar/keymap-drawer) YAML + SVG, or a ZIP — hot-swap at runtime
 - 🪟 **Tiling WM friendly** — no hardcoded heights, fully resizable, transparent overlay window
 - 🧪 **Browser mock mode** — full UI runs at `?mock` without Tauri for Playwright / agent testing
 
@@ -57,6 +57,20 @@ pnpm tauri build
 
 ## Bring your own keymap
 
+### Option A — Drag & drop (recommended)
+
+Open **⚙ → Import/Export** and drop your files onto the import zone:
+
+| Drop target | What happens |
+|---|---|
+| `.yaml` | Replaces the keymap config (re-parses layers, labels, hold bindings) |
+| `.svg` | Replaces the keyboard SVG layout |
+| `.zip` | Extracts and applies both (expects exactly one `.yaml` + one `.svg`) |
+
+You can also drop a `.yaml` and `.svg` together in one gesture. Imports are validated before applying and persisted across reloads. Use **↺ Reset** to revert to the bundled defaults, or **⬇ Download .zip** to export your current config.
+
+### Option B — Replace bundled assets
+
 Replace `assets/keymap.yaml` and `assets/keymap.svg` with output from [keymap-drawer](https://github.com/caksoylar/keymap-drawer):
 
 ```bash
@@ -84,6 +98,7 @@ Open the **⚙** button (top-right of the overlay):
 | **Devices** | Select `/dev/input/eventN` nodes. Devices sharing a `uniq` ID are grouped. Selection persisted. |
 | **Theme** | 8 themes applied live via CSS custom properties. |
 | **Input** | Hold–tap threshold slider (100–500 ms, default 200 ms). Persisted in `localStorage`. |
+| **Import/Export** | Drag & drop `.yaml`, `.svg`, or `.zip` to hot-swap your keymap. Export current config. Reset to defaults. |
 | **Console** | Live log stream from the Rust backend. |
 
 ---
@@ -146,7 +161,7 @@ Builds publish automatically on `v*` tags pushed to `main`.
 |---|---|---|
 | Linux | ubuntu-22.04 | `.deb` + `.AppImage` |
 | macOS arm64 | macos-latest | `.dmg` |
-| macOS x86_64 | macos-13 | `.dmg` |
+| macOS x86_64 | macos-15-intel | `.dmg` |
 | Windows | windows-latest | `.msi` + `.exe` |
 
 ---
@@ -195,6 +210,14 @@ git tag vX.Y.Z && git push origin vX.Y.Z
 ---
 
 ## Changelog
+
+### v0.3.0
+- **Import/Export tab** — drag & drop `.yaml`, `.svg`, or `.zip` to hot-swap keymap at runtime
+- Reactive keymap store — imported configs persist across reloads via `localStorage`
+- Export current YAML + SVG as a `.zip` archive
+- Reset to bundled defaults button
+- Minimal native ZIP read/write (no dependencies)
+- CI: replace deprecated `macos-13` runner with `macos-15-intel`
 
 ### v0.2.2
 - Browser mock mode (`?mock`) — full UI without Tauri, `window.__k0mock` simulator
