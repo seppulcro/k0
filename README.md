@@ -183,7 +183,9 @@ blocks the merge. The same chain you run locally:
 
 Weekly: [`scorecard.yml`](.github/workflows/scorecard.yml) runs
 [OpenSSF Scorecard](https://github.com/ossf/scorecard) and pushes
-results to GitHub Security tab + the public badge above.
+results to GitHub Security tab + the public badge above. GitHub-native
+**CodeQL** default-setup runs SAST on every PR + push for actions,
+JavaScript/TypeScript, and Rust.
 
 ### Bots
 
@@ -191,6 +193,7 @@ results to GitHub Security tab + the public badge above.
 |---|---|---|
 | [CodeRabbit](https://www.coderabbit.ai) (free for public repos) | [`.coderabbit.yaml`](./.coderabbit.yaml) | AI PR review on every PR — path-aware instructions for `src/`, `src-tauri/`, `.github/` |
 | [Renovate](https://docs.renovatebot.com) | [`renovate.json`](./renovate.json) | Dependency-update PRs (npm + cargo + gh-actions); weekly lockfile maintenance; pins gh-action SHAs; major updates require dashboard approval |
+| [Release Please](https://github.com/googleapis/release-please) | [`release-please-config.json`](./release-please-config.json) | Auto-opens a release PR from Conventional Commits; merging it tags `vX.Y.Z` and triggers `release.yml` |
 
 Dependabot security updates are enabled in repo settings as a fallback
 for vulnerability fixes.
