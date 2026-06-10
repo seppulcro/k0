@@ -30,3 +30,8 @@ playwright-report/
 tests/screenshots/
 tmp-video/
 .playwright-mcp/
+
+# Local env / direnv overrides (committed: .env.example, .envrc)
+.env
+.env.local
+.envrc.local
