@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Required for rdev's CGEventTap to receive global key events -->
+	<key>com.apple.security.device.input-monitoring</key>
+	<true/>
+	<!-- App-sandbox disabled so the global event tap actually fires -->
+	<key>com.apple.security.app-sandbox</key>
+	<false/>
+</dict>
+</plist>

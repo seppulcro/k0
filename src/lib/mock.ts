@@ -42,12 +42,21 @@ function emit(event: string, payload: unknown) {
 
 // --- Tauri API stubs ---
 
+let mockInputAccess: "granted" | "denied" | "unknown" | "unsupported" =
+	"unsupported";
+
 export async function invoke(cmd: string, _args?: unknown): Promise<unknown> {
 	if (cmd === "list_devices") {
 		return [{ path: "/dev/input/mock0", name: "Mock Keyboard", uniq: "mock" }];
 	}
 	if (cmd === "start_capture") return null;
 	if (cmd === "update_layout") return null;
+	if (cmd === "check_input_access") return mockInputAccess;
+	if (cmd === "request_input_access_cmd") {
+		if (mockInputAccess === "unknown") mockInputAccess = "granted";
+		return mockInputAccess;
+	}
+	if (cmd === "open_input_monitoring_settings") return null;
 	console.debug(`[mock] invoke("${cmd}")`, _args);
 	return null;
 }
@@ -148,6 +157,10 @@ const simulator = {
 			simulator.releaseLayer(label);
 			await delay(200);
 		}
+	},
+
+	setInputAccess(state: "granted" | "denied" | "unknown" | "unsupported") {
+		mockInputAccess = state;
 	},
 };
 

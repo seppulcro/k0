@@ -1,5 +1,5 @@
 [package]
-name = "k0-keyboard-overlay"
+name = "k0"
 version = "0.1.0"
 description = "A Tauri App"
 authors = ["you"]
@@ -11,7 +11,7 @@ edition = "2021"
 # The `_lib` suffix may seem redundant but it is necessary
 # to make the lib name unique and wouldn't conflict with the bin name.
 # This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
-name = "k0_keyboard_overlay_lib"
+name = "k0_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]
@@ -29,6 +29,7 @@ log = "0.4.22"
 
 [target.'cfg(target_os = "macos")'.dependencies]
 io-kit-sys = "0.4.1"
+rdev = "0.5.3"
 
 [target.'cfg(target_os = "linux")'.dependencies]
 evdev = "0.12"

@@ -1,8 +1,8 @@
 {
 	"$schema": "https://schema.tauri.app/config/2",
-	"productName": "k0-keyboard-overlay",
+	"productName": "k0",
 	"version": "0.3.0",
-	"identifier": "com.k0-keyboard-overlay.app",
+	"identifier": "com.k0.app",
 	"build": {
 		"beforeBundleCommand": "pnpm run build",
 		"beforeDevCommand": "pnpm run dev",
@@ -14,7 +14,7 @@
 		"macOSPrivateApi": true,
 		"windows": [
 			{
-				"title": "k0-keyboard-overlay",
+				"title": "k0",
 				"width": 800,
 				"height": 380,
 				"transparent": true,
@@ -41,7 +41,12 @@
 			"icons/128x128@2x.png",
 			"icons/icon.icns",
 			"icons/icon.ico"
-		]
+		],
+		"macOS": {
+			"entitlements": "entitlements.plist"
+		},
+		"iOS": {},
+		"android": {}
 	},
 	"plugins": {
 		"logger": {

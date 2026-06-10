@@ -1,13 +1,16 @@
 .key rect.key {
 	fill: var(--k0-key-fill, #45475a);
 	stroke: var(--k0-key-stroke, #585b70);
-	transition: fill var(--k0-key-transition-duration, 60ms) var(--k0-key-transition-easing, ease-out),
-		stroke var(--k0-key-transition-duration, 60ms) var(--k0-key-transition-easing, ease-out);
+	transition: fill var(--k0-key-transition-duration, 60ms)
+		var(--k0-key-transition-easing, ease-out), stroke
+		var(--k0-key-transition-duration, 60ms)
+		var(--k0-key-transition-easing, ease-out);
 }
 .key rect.side {
 	fill: var(--k0-key-fill, #45475a);
 	filter: brightness(75%);
-	transition: fill var(--k0-key-transition-duration, 60ms) var(--k0-key-transition-easing, ease-out);
+	transition: fill var(--k0-key-transition-duration, 60ms)
+		var(--k0-key-transition-easing, ease-out);
 }
 .key text {
 	fill: var(--k0-key-text, #cdd6f4);
@@ -15,7 +18,8 @@
 	font-size: 11px;
 	text-anchor: middle;
 	dominant-baseline: middle;
-	transition: fill var(--k0-key-transition-duration, 60ms) var(--k0-key-transition-easing, ease-out);
+	transition: fill var(--k0-key-transition-duration, 60ms)
+		var(--k0-key-transition-easing, ease-out);
 }
 .key text.hold,
 .key text.shifted {
