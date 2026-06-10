@@ -1,7 +1,7 @@
 import { getVersion } from "@tauri-apps/api/app";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
-import { useLocation } from "preact-iso";
 import { useContext, useEffect, useState } from "preact/hooks";
+import { useLocation } from "preact-iso";
 import { GlobalContext } from "..";
 
 export function Header() {
@@ -39,12 +39,7 @@ export function Header() {
 								<li className="disabled">{appVersion}</li>
 							</menu>
 						</li>
-						<li
-							onPointerUp={async (e) => {
-								console.log("Hello");
-								await getCurrentWebviewWindow().destroy();
-							}}
-						>
+						<li onPointerUp={() => getCurrentWebviewWindow().destroy()}>
 							Quit
 						</li>
 					</menu>

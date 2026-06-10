@@ -19,7 +19,7 @@ import {
 	requestInputAccess,
 } from "../../lib/permissions";
 import { invoke } from "../../lib/tauri";
-import { THEMES, TRANSITIONS, applyTheme } from "../../lib/themes";
+import { applyTheme, THEMES, TRANSITIONS } from "../../lib/themes";
 import "./style.css";
 
 interface DeviceInfo {

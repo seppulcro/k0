@@ -11,7 +11,10 @@ A KeyCastr-inspired overlay that reads raw key events, highlights pressed keys o
 [preview.webm](https://github.com/user-attachments/assets/f393e3d7-74d6-4cae-bf1d-44cd5dfb4945)
 
 [![Release](https://img.shields.io/github/v/release/seppulcro/k0?style=flat-square)](https://github.com/seppulcro/k0/releases)
-[![CI](https://img.shields.io/github/actions/workflow/status/seppulcro/k0/release.yml?style=flat-square&label=CI)](https://github.com/seppulcro/k0/actions)
+[![CI](https://img.shields.io/github/actions/workflow/status/seppulcro/k0/ci.yml?style=flat-square&label=CI&branch=main)](https://github.com/seppulcro/k0/actions/workflows/ci.yml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/seppulcro/k0/badge?style=flat-square)](https://scorecard.dev/viewer/?uri=github.com/seppulcro/k0)
+[![Renovate](https://img.shields.io/badge/renovate-enabled-brightgreen?style=flat-square&logo=renovatebot)](https://github.com/seppulcro/k0/issues?q=is%3Aissue+label%3Arenovate)
+[![CodeRabbit](https://img.shields.io/coderabbit/prs/github/seppulcro/k0?style=flat-square&logo=coderabbit&label=CodeRabbit+reviews)](https://www.coderabbit.ai)
 [![License: AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-blue?style=flat-square)](./LICENSE)
 
 </div>
@@ -34,17 +37,28 @@ A KeyCastr-inspired overlay that reads raw key events, highlights pressed keys o
 
 ### Prerequisites
 
-- [Rust](https://rustup.rs/) + Tauri v2 CLI
-- [Node.js](https://nodejs.org/) 22+ + [pnpm](https://pnpm.io/)
-- **Linux only:** user must be in the `input` group:
-  ```bash
-  sudo usermod -aG input $USER  # then log out/in
-  ```
+Toolchain versions are pinned in [`.tool-versions`](./.tool-versions) and
+[`package.json`](./package.json) so local dev matches CI bit-for-bit.
+
+Install via a polyglot version manager that reads `.tool-versions` —
+[mise](https://mise.jdx.dev), [asdf](https://asdf-vm.com), or
+[vfox](https://vfox.dev) — then enable Corepack for pnpm:
+
+```bash
+mise install     # or asdf install / vfox install
+corepack enable  # picks pnpm version from package.json
+```
+
+**Linux only:** user must be in the `input` group:
+
+```bash
+sudo usermod -aG input $USER  # then log out/in
+```
 
 ### Install & run
 
 ```bash
-pnpm install
+pnpm install   # also installs lefthook git hooks via `prepare`
 
 # Dev — hot-reload frontend + Rust watch
 pnpm tauri dev
@@ -153,6 +167,36 @@ When using an AI agent, always validate with `pnpm biome check src/` + `pnpm run
 
 ---
 
+## CI / supply chain
+
+Every PR runs [`ci.yml`](.github/workflows/ci.yml) — anything that turns red
+blocks the merge. The same chain you run locally:
+
+| Job | Tool | Purpose |
+|---|---|---|
+| `ubuntu-22.04` / `macos-latest` / `windows-latest` | `pnpm biome check` + `pnpm run build` + `cargo check` | Per-OS frontend lint, Vite build, Rust type check |
+| Lint workflows | [actionlint](https://github.com/rhysd/actionlint) | Validates `.github/workflows/*.yml` |
+| Secret scan | [gitleaks](https://github.com/gitleaks/gitleaks) | Pattern-based detection of committed secrets |
+| Secret scan (verified) | [TruffleHog](https://trufflesecurity.com) `--only-verified` | Confirms detected secrets are live credentials |
+| Dependency review | [actions/dependency-review-action](https://github.com/actions/dependency-review-action) | Blocks PRs introducing high-severity CVE deps |
+| Egress audit | [StepSecurity Harden-Runner](https://github.com/step-security/harden-runner) | Logs CI egress — detection baseline for compromised actions |
+
+Weekly: [`scorecard.yml`](.github/workflows/scorecard.yml) runs
+[OpenSSF Scorecard](https://github.com/ossf/scorecard) and pushes
+results to GitHub Security tab + the public badge above.
+
+### Bots
+
+| Bot | Config | What it does |
+|---|---|---|
+| [CodeRabbit](https://www.coderabbit.ai) (free for public repos) | [`.coderabbit.yaml`](./.coderabbit.yaml) | AI PR review on every PR — path-aware instructions for `src/`, `src-tauri/`, `.github/` |
+| [Renovate](https://docs.renovatebot.com) | [`renovate.json`](./renovate.json) | Dependency-update PRs (npm + cargo + gh-actions); weekly lockfile maintenance; pins gh-action SHAs; major updates require dashboard approval |
+
+Dependabot security updates are enabled in repo settings as a fallback
+for vulnerability fixes.
+
+---
+
 ## Releases
 
 Builds publish automatically on `v*` tags pushed to `main`.
@@ -168,44 +212,9 @@ Builds publish automatically on `v*` tags pushed to `main`.
 
 ## Contributing
 
-### Branch naming
-
-| Type | Pattern | Example |
-|---|---|---|
-| Feature | `feat/<description>` | `feat/layer-animation` |
-| Bug fix | `fix/<description>` | `fix/svg-parse-error` |
-| Chore | `chore/<description>` | `chore/bump-v0.3.0` |
-
-Never put version numbers in `feat/` or `fix/` branch names.
-
-### Release flow
-
-```
-feat/* or fix/*  →  PR → squash merge → main
-                                          ↓
-                          chore/bump-vX.Y.Z  →  PR → merge → main
-                                                                ↓
-                                                    git tag vX.Y.Z → push → CI
-```
-
-```bash
-# Cut a release
-git checkout -b chore/bump-vX.Y.Z
-# bump version in package.json + src-tauri/tauri.conf.json
-git commit -am "chore: bump version → X.Y.Z"
-git push origin chore/bump-vX.Y.Z
-# open PR → merge → then:
-git checkout main && git pull
-git tag vX.Y.Z && git push origin vX.Y.Z
-```
-
-### SemVer
-
-| Bump | When |
-|---|---|
-| `patch` | bug fixes, chores, deps |
-| `minor` | new features, UI changes |
-| `major` | breaking config/API changes |
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for toolchain setup, branch
+naming, release flow, SemVer policy, and PR review (CodeRabbit /
+Renovate). Vulnerability reports: [SECURITY.md](./SECURITY.md).
 
 ---
 

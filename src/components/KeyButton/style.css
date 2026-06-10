@@ -1,9 +1,10 @@
 .key rect.key {
 	fill: var(--k0-key-fill, #45475a);
 	stroke: var(--k0-key-stroke, #585b70);
-	transition: fill var(--k0-key-transition-duration, 60ms)
-		var(--k0-key-transition-easing, ease-out), stroke
-		var(--k0-key-transition-duration, 60ms)
+	transition:
+		fill var(--k0-key-transition-duration, 60ms)
+		var(--k0-key-transition-easing, ease-out),
+		stroke var(--k0-key-transition-duration, 60ms)
 		var(--k0-key-transition-easing, ease-out);
 }
 .key rect.side {
@@ -14,7 +15,12 @@
 }
 .key text {
 	fill: var(--k0-key-text, #cdd6f4);
-	font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+	font-family:
+		SFMono-Regular,
+		Consolas,
+		Liberation Mono,
+		Menlo,
+		monospace;
 	font-size: 11px;
 	text-anchor: middle;
 	dominant-baseline: middle;

@@ -1,12 +1,12 @@
 import { signal } from "@preact/signals";
 import { createContext } from "preact";
-import { LocationProvider, Route, Router, hydrate } from "preact-iso";
+import { hydrate, LocationProvider, Route, Router } from "preact-iso";
 
 import { Footer } from "./components/Footer.js";
 import { Header } from "./components/Header.jsx";
 import { installConsoleInterceptor } from "./lib/consoleCapture";
-import { Home } from "./pages/Home/index.jsx";
 import { NotFound } from "./pages/_404.jsx";
+import { Home } from "./pages/Home/index.jsx";
 import "./style.css";
 
 installConsoleInterceptor();
