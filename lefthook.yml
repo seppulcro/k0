@@ -1,0 +1,14 @@
+pre-commit:
+  parallel: true
+  commands:
+    biome:
+      glob: 'src/**/*.{ts,tsx,js,jsx,css,json}'
+      run: pnpm biome check {staged_files}
+    cargo:
+      glob: 'src-tauri/**/*.rs'
+      run: cargo check --manifest-path src-tauri/Cargo.toml
+
+pre-push:
+  commands:
+    build:
+      run: pnpm run build

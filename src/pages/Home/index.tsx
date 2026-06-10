@@ -3,13 +3,13 @@ import { useEffect, useState } from "preact/hooks";
 
 import { KeyButton } from "../../components/KeyButton";
 import { Settings } from "../../components/Settings";
-import { activeLayer, pressedPositions } from "../../lib/keyState";
 import {
 	evdevToPos,
 	parsedKeymap,
 	parsedLayout,
 	posToLayerStrKeys,
 } from "../../lib/keymapStore";
+import { activeLayer, pressedPositions } from "../../lib/keyState";
 import {
 	inputAccess,
 	startInputAccessPolling,

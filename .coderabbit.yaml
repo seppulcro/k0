@@ -1,0 +1,43 @@
+language: en
+early_access: false
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: true
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - main
+  path_filters:
+    - '!dist/**'
+    - '!**/target/**'
+    - '!**/node_modules/**'
+    - '!**/*.lock'
+    - '!**/*.lockb'
+    - '!pnpm-lock.yaml'
+    - '!src-tauri/gen/**'
+  path_instructions:
+    - path: 'src/**/*.{ts,tsx,css}'
+      instructions: |
+        Frontend uses Preact + Preact Signals + matcha.css (semantic CSS via
+        utility classes — see https://matcha.mizu.sh/). Prefer matcha utility
+        classes (`.attention`, `.success`, etc.) over custom CSS. Biome must
+        pass (`pnpm biome check src/`). Per README "fix the error, don't
+        suppress the rule" — never add `biome-ignore` lines.
+    - path: 'src-tauri/src/**/*.rs'
+      instructions: |
+        Tauri v2 + platform-gated backends (Linux evdev, macOS rdev). Per-OS
+        code lives in `cfg(target_os = "...")` blocks or modules
+        (`macos.rs`). Frontend wire protocol (key-event, layer-event,
+        evdev `u16` codes) must stay unchanged across platforms.
+    - path: '.github/workflows/*.yml'
+      instructions: |
+        Pin GitHub Actions by SHA (Renovate keeps them fresh). Never use
+        `version: latest` for any tool — always pin via `.tool-versions`
+        or `package.json` `packageManager`.
+chat:
+  auto_reply: true

@@ -28,7 +28,7 @@ main > div {
 	flex-direction: column;
 }
 
-header,
-footer {
-	display: none !important;
+#app > header,
+#app > footer {
+	display: none;
 }
