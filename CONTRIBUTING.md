@@ -28,6 +28,27 @@ pnpm tauri dev       # hot reload — Tauri + Vite
 Browser mock mode (no Tauri runtime needed) — open
 `http://localhost:5173?mock` and use `window.__k0mock` to drive the UI.
 
+## Environment variables
+
+Local secrets (e.g. a GitHub PAT for opencode's github MCP) live in a
+gitignored `.env`. The contract is documented in
+[`.env.example`](./.env.example) — copy it to `.env` and fill in what
+you need:
+
+```bash
+cp .env.example .env
+$EDITOR .env
+```
+
+If you have [direnv](https://direnv.net) installed (with
+`eval "$(direnv hook zsh)"` in your shell rc), `cd`ing into this repo
+auto-loads `.env` via the committed [`.envrc`](./.envrc). One-time
+approval per machine: `direnv allow`. Without direnv, just `source .env`
+yourself.
+
+Nothing in the k0 source code itself requires environment variables —
+this contract exists only for surrounding tooling like opencode.
+
 ## Pre-commit / pre-push hooks
 
 `pnpm install` installs [lefthook](https://lefthook.dev) hooks via the
