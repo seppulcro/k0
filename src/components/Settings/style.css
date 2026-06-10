@@ -318,6 +318,11 @@ details.device-group.partial {
 	cursor: pointer;
 	transition: border-color 150ms, background 150ms;
 	position: relative;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	width: 100%;
+	text-align: center;
 }
 .drop-zone:hover,
 .drop-zone--active {

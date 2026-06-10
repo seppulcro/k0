@@ -10,6 +10,11 @@ import {
 	parsedLayout,
 	posToLayerStrKeys,
 } from "../../lib/keymapStore";
+import {
+	inputAccess,
+	startInputAccessPolling,
+	stopInputAccessPolling,
+} from "../../lib/permissions";
 import { invoke, listen } from "../../lib/tauri";
 import { loadSavedTheme } from "../../lib/themes";
 
@@ -26,6 +31,7 @@ function getSavedDevices(): string[] {
 
 export function Home() {
 	const [settingsOpen, setSettingsOpen] = useState(false);
+	const [settingsTab, setSettingsTab] = useState<string | undefined>();
 	const [activeDevices, setActiveDevices] = useState<string[]>(getSavedDevices);
 	const [tappingTermMs, setTappingTermMs] = useState<number>(() => {
 		const saved =
@@ -66,6 +72,8 @@ export function Home() {
 			});
 		}
 
+		startInputAccessPolling();
+
 		const unlistenKey = listen<{ pos: number; pressed: boolean }>(
 			"key-event",
 			({ payload }) => {
@@ -84,6 +92,7 @@ export function Home() {
 		);
 
 		return () => {
+			stopInputAccessPolling();
 			unlistenKey.then((fn) => fn());
 			unlistenLayer.then((fn) => fn());
 		};
@@ -116,21 +125,36 @@ export function Home() {
 	}
 
 	const parsed = parsedLayout.value;
+	const access = inputAccess.value;
+	const showPermPill = access === "denied" || access === "unknown";
+
+	function openSettings(tab?: string) {
+		setSettingsTab(tab);
+		setSettingsOpen(true);
+	}
 
 	return (
 		<div class="home-root">
 			<div class="top-row">
+				{showPermPill && (
+					<button
+						type="button"
+						class="perm-pill attention"
+						onClick={() => openSettings("Devices")}
+					>
+						⚠ Permission required
+					</button>
+				)}
 				<svg
 					class={`cog-key ${settingsOpen ? "cog-active" : ""}`}
 					viewBox="-26 -26 52 52"
-					onClick={() => setSettingsOpen((v) => !v)}
+					onClick={() => openSettings()}
 					onKeyDown={(e) => {
-						if (e.key === "Enter") setSettingsOpen((v) => !v);
+						if (e.key === "Enter") openSettings();
 					}}
 					aria-label="Toggle settings panel"
-					role="button"
-					tabIndex={0}
 				>
+					<title>Toggle settings panel</title>
 					<KeyButton pos={-1} x={0} y={0} tap="⚙" />
 				</svg>
 			</div>
@@ -140,6 +164,7 @@ export function Home() {
 					viewBox={parsed.viewBox}
 					xmlns="http://www.w3.org/2000/svg"
 				>
+					<title>Keyboard layout</title>
 					{parsed.keys.map(({ pos, x, y }) => {
 						const labels = layerLabels?.get(pos);
 						return (
@@ -163,6 +188,7 @@ export function Home() {
 			)}
 			<Settings
 				open={settingsOpen}
+				initialTab={settingsTab}
 				onClose={() => setSettingsOpen(false)}
 				onDevicesSelect={handleDevicesSelect}
 				activeDevices={activeDevices}

@@ -9,7 +9,6 @@ interface Props {
 	shifted?: string;
 	pressed?: boolean;
 	layerHeld?: boolean;
-	onClick?: () => void;
 }
 
 function KeyText({ y, cls, label }: { y: number; cls: string; label: string }) {
@@ -42,7 +41,6 @@ export function KeyButton({
 	shifted,
 	pressed,
 	layerHeld,
-	onClick,
 }: Props) {
 	const cls = [
 		"key",
@@ -54,12 +52,7 @@ export function KeyButton({
 		.join(" ");
 
 	return (
-		<g
-			transform={`translate(${x}, ${y})`}
-			class={cls}
-			onClick={onClick}
-			style={onClick ? "cursor:pointer" : undefined}
-		>
+		<g transform={`translate(${x}, ${y})`} class={cls}>
 			<rect
 				rx={6}
 				ry={6}

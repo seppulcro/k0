@@ -13,6 +13,11 @@ import {
 	svgFileName,
 	yamlFileName,
 } from "../../lib/keymapStore";
+import {
+	inputAccess,
+	openInputMonitoringSettings,
+	requestInputAccess,
+} from "../../lib/permissions";
 import { invoke } from "../../lib/tauri";
 import { THEMES, TRANSITIONS, applyTheme } from "../../lib/themes";
 import "./style.css";
@@ -25,6 +30,7 @@ interface DeviceInfo {
 
 interface Props {
 	open: boolean;
+	initialTab?: string;
 	onClose: () => void;
 	onDevicesSelect: (paths: string[]) => void;
 	activeDevices: string[];
@@ -35,8 +41,13 @@ interface Props {
 const TABS = ["Devices", "Theme", "Input", "Import/Export", "Console"] as const;
 type Tab = (typeof TABS)[number];
 
+function isTab(v: string | undefined): v is Tab {
+	return !!v && (TABS as readonly string[]).includes(v);
+}
+
 export function Settings({
 	open,
+	initialTab,
 	onClose,
 	onDevicesSelect,
 	activeDevices,
@@ -54,7 +65,10 @@ export function Settings({
 	const consoleEndRef = useRef<HTMLDivElement>(null);
 	const logs = useComputed(() => consoleLogs.value);
 
-	// Fetch devices when panel opens
+	useEffect(() => {
+		if (open && isTab(initialTab)) setTab(initialTab);
+	}, [open, initialTab]);
+
 	useEffect(() => {
 		if (!open) return;
 		invoke<DeviceInfo[]>("list_devices")
@@ -62,9 +76,8 @@ export function Settings({
 			.catch((e) => console.error("list_devices:", e));
 	}, [open]);
 
-	// Auto-scroll console on new log entries (signal-reactive)
 	useSignalEffect(() => {
-		void consoleLogs.value; // subscribe to signal
+		void consoleLogs.value;
 		if (tab === "Console") {
 			consoleEndRef.current?.scrollIntoView({ behavior: "smooth" });
 		}
@@ -120,9 +133,10 @@ export function Settings({
 			<div class="panel-body">
 				{tab === "Devices" && (
 					<div class="panel-section">
+						<PermissionStatus />
 						<p class="muted">
-							Select which /dev/input/event* nodes to capture. Interfaces
-							sharing a unique ID are grouped.
+							Select which devices to capture. Interfaces sharing a unique ID
+							are grouped.
 						</p>
 						<div class="device-list">
 							{devices.length === 0 ? (
@@ -436,17 +450,13 @@ function ImportExportPanel() {
 		<div class="panel-section panel-section--row">
 			<div class="panel-col">
 				<span class="panel-col-label">Import</span>
-				<div
+				<button
+					type="button"
 					class={`drop-zone ${dragging ? "drop-zone--active" : ""}`}
 					onDrop={handleDrop}
 					onDragOver={handleDragOver}
 					onDragLeave={() => setDragging(false)}
 					onClick={() => fileRef.current?.click()}
-					onKeyDown={(e) => {
-						if (e.key === "Enter") fileRef.current?.click();
-					}}
-					role="button"
-					tabIndex={0}
 				>
 					<span class="drop-zone-icon">📂</span>
 					<span class="drop-zone-text">
@@ -461,7 +471,7 @@ function ImportExportPanel() {
 						onChange={handleFileInput}
 						class="drop-zone-input"
 					/>
-				</div>
+				</button>
 				{importError.value && <p class="import-error">{importError.value}</p>}
 				<div class="import-status">
 					<div class="import-file">
@@ -508,5 +518,39 @@ function ImportExportPanel() {
 				</div>
 			</div>
 		</div>
+	);
+}
+
+function PermissionStatus() {
+	const status = useComputed(() => inputAccess.value);
+	const value = status.value;
+
+	if (value === "unsupported") return null;
+
+	const labels: Record<string, { text: string; tone: string }> = {
+		granted: { text: "Input Monitoring granted", tone: "success" },
+		denied: { text: "Input Monitoring denied", tone: "attention" },
+		unknown: { text: "Input Monitoring not yet requested", tone: "attention" },
+	};
+	const { text, tone } = labels[value] ?? labels.unknown;
+
+	return (
+		<fieldset class={tone}>
+			<legend>macOS permission</legend>
+			<p>{text}</p>
+			{value !== "granted" && (
+				<>
+					<button type="button" onClick={() => void requestInputAccess()}>
+						Request permission
+					</button>
+					<button
+						type="button"
+						onClick={() => void openInputMonitoringSettings()}
+					>
+						Open System Settings
+					</button>
+				</>
+			)}
+		</fieldset>
 	);
 }

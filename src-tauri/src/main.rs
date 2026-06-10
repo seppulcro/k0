@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    k0_keyboard_overlay_lib::run();
+    k0_lib::run();
 }

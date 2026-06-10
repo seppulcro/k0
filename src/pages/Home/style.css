@@ -10,8 +10,14 @@
 .top-row {
 	display: flex;
 	justify-content: flex-end;
+	align-items: center;
+	gap: 6px;
 	width: 100%;
 	flex: 0 0 auto;
+}
+
+.perm-pill {
+	background: var(--bg-default);
 }
 
 .keymap-svg {
