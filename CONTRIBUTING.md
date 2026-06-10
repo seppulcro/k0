@@ -64,20 +64,44 @@ Rule: **fix the error, don't suppress the rule**.
 Never put version numbers in `feat/` or `fix/` branch names. Version
 numbers belong in `chore/bump-vX.Y.Z` only.
 
+## Commit messages
+
+We use [Conventional Commits](https://www.conventionalcommits.org). The
+prefix drives the SemVer bump and the auto-generated changelog:
+
+| Prefix     | Bump  | Example                                  |
+|------------|-------|------------------------------------------|
+| `feat:`    | minor | `feat: add layer animation`              |
+| `fix:`     | patch | `fix: macOS key capture regression`      |
+| `chore:`   | patch | `chore: bump biome to 2.5.0`             |
+| `docs:`    | patch | `docs: clarify rdev permission flow`     |
+| `feat!:` or `BREAKING CHANGE:` footer | major | `feat!: rename layer keys protocol` |
+
 ## Release flow
+
+[Release Please](https://github.com/googleapis/release-please) watches
+`main` for Conventional Commits and keeps an open PR titled
+`chore: release X.Y.Z` that bumps `package.json` +
+`src-tauri/tauri.conf.json` and updates `CHANGELOG.md`. **Merging that
+PR is the release.** Release Please then creates the git tag and
+triggers `release.yml` to build the cross-platform artifacts.
 
 ```
 feat/* or fix/*  →  PR → squash merge → main
                                           ↓
-                          chore/bump-vX.Y.Z  →  PR → squash merge → main
-                                                                       ↓
-                                                            git tag vX.Y.Z → push → CI
+                       Release Please PR (auto-updated on every push)
+                                          ↓
+                              squash merge → main
+                                          ↓
+                          Release Please tags vX.Y.Z → release.yml
 ```
+
+Manual release (only needed if Release Please bot is unavailable):
 
 ```bash
 git checkout -b chore/bump-vX.Y.Z
-# bump version in package.json + src-tauri/tauri.conf.json
-git commit -am "chore: bump version → X.Y.Z"
+# bump version in package.json + src-tauri/tauri.conf.json + .release-please-manifest.json
+git commit -am "chore: release X.Y.Z"
 git push origin chore/bump-vX.Y.Z
 gh pr create --base main --fill
 # review → merge → then:
