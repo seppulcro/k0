@@ -14,7 +14,7 @@
 		"@preact/signals": "^2.9.1",
 		"@tauri-apps/api": "^2.11.0",
 		"@tauri-apps/plugin-log": "~2.8.0",
-		"js-yaml": "^4.2.0",
+		"js-yaml": "^4.3.0",
 		"preact": "^10.29.2",
 		"preact-iso": "^2.12.0",
 		"preact-render-to-string": "^6.7.0"
