@@ -9,26 +9,26 @@ importers:
   .:
     dependencies:
       '@preact/signals':
-        specifier: ^2.9.1
-        version: 2.9.1(preact@10.29.2)
+        specifier: ^2.11.2
+        version: 2.11.2(preact@10.29.8)
       '@tauri-apps/api':
-        specifier: ^2.11.0
-        version: 2.11.0
+        specifier: ^2.11.1
+        version: 2.11.1
       '@tauri-apps/plugin-log':
-        specifier: ~2.8.0
-        version: 2.8.0
+        specifier: ~2.9.1
+        version: 2.9.1
       js-yaml:
         specifier: ^4.2.0
         version: 4.2.0
       preact:
-        specifier: ^10.29.2
-        version: 10.29.2
+        specifier: ^10.29.8
+        version: 10.29.8(preact-render-to-string@6.7.0)
       preact-iso:
-        specifier: ^2.12.0
-        version: 2.12.0(preact-render-to-string@6.7.0(preact@10.29.2))(preact@10.29.2)
+        specifier: ^2.12.2
+        version: 2.12.2(preact-render-to-string@6.7.0)(preact@10.29.8)
       preact-render-to-string:
         specifier: ^6.7.0
-        version: 6.7.0(preact@10.29.2)
+        version: 6.7.0(preact@10.29.8)
     devDependencies:
       '@biomejs/biome':
         specifier: ^2.4.16
@@ -38,7 +38,7 @@ importers:
         version: 1.60.0
       '@preact/preset-vite':
         specifier: ^2.10.5
-        version: 2.10.5(@babel/core@7.26.0)(preact@10.29.2)(rollup@4.61.1)(vite@7.3.5(@types/node@22.19.20)(tsx@4.22.4))
+        version: 2.10.5(@babel/core@7.26.0)(preact@10.29.8)(rollup@4.61.1)(vite@7.3.5(@types/node@22.19.20)(tsx@4.22.4))
       '@tauri-apps/cli':
         specifier: ^2.11.2
         version: 2.11.2
@@ -603,11 +603,11 @@ packages:
       '@babel/core': 7.x
       vite: 2.x || 3.x || 4.x || 5.x || 6.x || 7.x || 8.x
 
-  '@preact/signals-core@1.14.2':
-    resolution: {integrity: sha512-RZHdBj9ZF4n40Rp4jS052EHHjBWf96P9oNdXPfhQTovCuWY9iQn3Gq+gOTJSgBO9A/JBuPfMOWsSX/lIU9Pc/A==}
+  '@preact/signals-core@1.14.4':
+    resolution: {integrity: sha512-HNB6HYeYKhQbJ1aKl+YRjrS4+QWHLKX6qKoUsfS/m0vqzsVaEBiZiaKbG/e+NKk2ch5ALQr/ihWaMHxiCuuWHA==}
 
-  '@preact/signals@2.9.1':
-    resolution: {integrity: sha512-xVqN8mJjbSN5IB/8Ubmd9NN+Ew6zJswoRxrjZbH3YsgkMshFeO6d8zxEFpHRTq9GJZx7cnPs2CnCpFqtGXGNsw==}
+  '@preact/signals@2.11.2':
+    resolution: {integrity: sha512-rVTRTt/T0HIRgbugwS5FigbfF/kfdEFYFtiqxa+lbpqTajepqnR0firuAS2iNdHyejWB7Yc9p9QePkVNBtTAwg==}
     peerDependencies:
       preact: '>= 10.25.0 || >=11.0.0-0'
 
@@ -766,8 +766,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@tauri-apps/api@2.11.0':
-    resolution: {integrity: sha512-7CinYODhky9lmO23xHnUFv0Xt43fbtWMyxZcLcRBlFkcgXKuEirBvHpmtJ89YMhyeGcq20Wuc47Fa4XjyniywA==}
+  '@tauri-apps/api@2.11.1':
+    resolution: {integrity: sha512-M2FPuYND2m+wh5hfW9ZpSdxMPdEJovPBWwoHJmwUpysTYNHaOkVFN419m/K0LIgjb/7KU2vBgsUepJWugQCvAA==}
 
   '@tauri-apps/cli-darwin-arm64@2.11.2':
     resolution: {integrity: sha512-+4UZzLt+eOAEQCwgd+TqKgyUJMrvx+BgdXLLaqJYmPqzP+nE6YZr/hY6CWLYGQb8jFn99jEkmC6uA3tNvamA1w==}
@@ -840,8 +840,8 @@ packages:
     engines: {node: '>= 10'}
     hasBin: true
 
-  '@tauri-apps/plugin-log@2.8.0':
-    resolution: {integrity: sha512-a+7rOq3MJwpTOLLKbL8d0qGZ85hgHw5pNOWusA9o3cf7cEgtYHiGY/+O8fj8MvywQIGqFv0da2bYQDlrqLE7rw==}
+  '@tauri-apps/plugin-log@2.9.1':
+    resolution: {integrity: sha512-8dYNEQOgZcIEqeFtHAsOIGLoptm+j94270Jf2MrGS/zbsYNd4C8DKyOdeYggAyE3ugwr12mTefIfC8lVVEhdlg==}
 
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
@@ -1083,8 +1083,8 @@ packages:
     resolution: {integrity: sha512-FfR8sjd4em2T6fb3I2MwAJU7HWVMr9zba+enmQeeWFfCbm+UOC/0X4DS8XtpUTMwWMGbjKYP7xjfNekzyGmB3A==}
     engines: {node: ^10 || ^12 || >=14}
 
-  preact-iso@2.12.0:
-    resolution: {integrity: sha512-k0Y44UONBJ1zBXXCBhJRAa5O4ww8a5FHdLD6l21IxcnsTmDBto4n7KPQAH6xqegsKDMX4SuJ02qItiUlciIlZQ==}
+  preact-iso@2.12.2:
+    resolution: {integrity: sha512-qit+qSMiZ41K0EQkLNa3MSxnWVCm5yXvy9m3CcGf/zF1QhVJzSwVCbpiz52VSbWpg8v8nYNIYDrXJZPNFpM1uw==}
     peerDependencies:
       preact: '>=10 || >= 11.0.0-0'
       preact-render-to-string: '>=6.4.0'
@@ -1094,8 +1094,13 @@ packages:
     peerDependencies:
       preact: '>=10 || >= 11.0.0-0'
 
-  preact@10.29.2:
-    resolution: {integrity: sha512-7tNmwg/7mzzAoB/8kSg6Hl37JraAZw3Z3A0JSY7VXlZwo82Xn0G7wKbNNs2qoF4ZEEsQGTwDAroNdqKs1ofJxQ==}
+  preact@10.29.8:
+    resolution: {integrity: sha512-ej2aVZ+vZ8WO7tvlQWRM9N63A0KzF9q4mWJfDUHgYaIofWY9hu74QdnQrjoPMmZi2/nZ5gN0bJCQF49xQqx09Q==}
+    peerDependencies:
+      preact-render-to-string: '>=5'
+    peerDependenciesMeta:
+      preact-render-to-string:
+        optional: true
 
   rollup@4.61.1:
     resolution: {integrity: sha512-I4KW6iuRpuu2uHBLraZ1wNZe0DP7lnRha+VJ9tNaYVaVgKhW0aI3h4RYnoRPeql0flHm/Co55b7snEDcOfOJrA==}
@@ -1607,12 +1612,12 @@ snapshots:
     dependencies:
       playwright: 1.60.0
 
-  '@preact/preset-vite@2.10.5(@babel/core@7.26.0)(preact@10.29.2)(rollup@4.61.1)(vite@7.3.5(@types/node@22.19.20)(tsx@4.22.4))':
+  '@preact/preset-vite@2.10.5(@babel/core@7.26.0)(preact@10.29.8)(rollup@4.61.1)(vite@7.3.5(@types/node@22.19.20)(tsx@4.22.4))':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/plugin-transform-react-jsx': 7.29.7(@babel/core@7.26.0)
       '@babel/plugin-transform-react-jsx-development': 7.29.7(@babel/core@7.26.0)
-      '@prefresh/vite': 2.4.12(preact@10.29.2)(vite@7.3.5(@types/node@22.19.20)(tsx@4.22.4))
+      '@prefresh/vite': 2.4.12(preact@10.29.8)(vite@7.3.5(@types/node@22.19.20)(tsx@4.22.4))
       '@rollup/pluginutils': 5.4.0(rollup@4.61.1)
       babel-plugin-transform-hook-names: 1.0.2(@babel/core@7.26.0)
       debug: 4.4.3
@@ -1626,29 +1631,29 @@ snapshots:
       - rollup
       - supports-color
 
-  '@preact/signals-core@1.14.2': {}
+  '@preact/signals-core@1.14.4': {}
 
-  '@preact/signals@2.9.1(preact@10.29.2)':
+  '@preact/signals@2.11.2(preact@10.29.8)':
     dependencies:
-      '@preact/signals-core': 1.14.2
-      preact: 10.29.2
+      '@preact/signals-core': 1.14.4
+      preact: 10.29.8(preact-render-to-string@6.7.0)
 
   '@prefresh/babel-plugin@0.5.3': {}
 
-  '@prefresh/core@1.5.3(preact@10.29.2)':
+  '@prefresh/core@1.5.3(preact@10.29.8)':
     dependencies:
-      preact: 10.29.2
+      preact: 10.29.8(preact-render-to-string@6.7.0)
 
   '@prefresh/utils@1.2.0': {}
 
-  '@prefresh/vite@2.4.12(preact@10.29.2)(vite@7.3.5(@types/node@22.19.20)(tsx@4.22.4))':
+  '@prefresh/vite@2.4.12(preact@10.29.8)(vite@7.3.5(@types/node@22.19.20)(tsx@4.22.4))':
     dependencies:
       '@babel/core': 7.26.0
       '@prefresh/babel-plugin': 0.5.3
-      '@prefresh/core': 1.5.3(preact@10.29.2)
+      '@prefresh/core': 1.5.3(preact@10.29.8)
       '@prefresh/utils': 1.2.0
       '@rollup/pluginutils': 4.2.1
-      preact: 10.29.2
+      preact: 10.29.8(preact-render-to-string@6.7.0)
       vite: 7.3.5(@types/node@22.19.20)(tsx@4.22.4)
     transitivePeerDependencies:
       - supports-color
@@ -1741,7 +1746,7 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.61.1':
     optional: true
 
-  '@tauri-apps/api@2.11.0': {}
+  '@tauri-apps/api@2.11.1': {}
 
   '@tauri-apps/cli-darwin-arm64@2.11.2':
     optional: true
@@ -1790,9 +1795,9 @@ snapshots:
       '@tauri-apps/cli-win32-ia32-msvc': 2.11.2
       '@tauri-apps/cli-win32-x64-msvc': 2.11.2
 
-  '@tauri-apps/plugin-log@2.8.0':
+  '@tauri-apps/plugin-log@2.9.1':
     dependencies:
-      '@tauri-apps/api': 2.11.0
+      '@tauri-apps/api': 2.11.1
 
   '@types/estree@1.0.6': {}
 
@@ -2035,16 +2040,18 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  preact-iso@2.12.0(preact-render-to-string@6.7.0(preact@10.29.2))(preact@10.29.2):
+  preact-iso@2.12.2(preact-render-to-string@6.7.0)(preact@10.29.8):
     dependencies:
-      preact: 10.29.2
-      preact-render-to-string: 6.7.0(preact@10.29.2)
+      preact: 10.29.8(preact-render-to-string@6.7.0)
+      preact-render-to-string: 6.7.0(preact@10.29.8)
 
-  preact-render-to-string@6.7.0(preact@10.29.2):
+  preact-render-to-string@6.7.0(preact@10.29.8):
     dependencies:
-      preact: 10.29.2
+      preact: 10.29.8(preact-render-to-string@6.7.0)
 
-  preact@10.29.2: {}
+  preact@10.29.8(preact-render-to-string@6.7.0):
+    optionalDependencies:
+      preact-render-to-string: 6.7.0(preact@10.29.8)
 
   rollup@4.61.1:
     dependencies:
